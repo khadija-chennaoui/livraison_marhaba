@@ -1,4 +1,5 @@
 const user = require("../models/user-model");
+const role = require("../models/role-model");
 
 const bcrypt = require("bcryptjs");
 
@@ -21,7 +22,7 @@ const Register = (req, res) => {
             bcrypt.hash(body.password, 10)
             .then((hash) => {
                     body.password = hash;
-                    user.create({ ...body })
+                    user.create({ ...body ,role:'634db3d8c47f7caf754f57d5'})
                 .then(() => {
                         res.send({ message: "added sccssfly" });
                     })
@@ -85,10 +86,20 @@ const login =(req,res) =>{
 
 
 
+//Ajouter les rôles
+
+// const Role = (req, res) => {
+//     role.create([
+//         { role: 'Admin' },
+//         { role: 'Client' },
+//         { role: 'Livreure' }
+//       ])
+//       .then(res.send({msg:'role is added'}))
+//       .catch(error => res.status(500).json({ error }))
+// };
 
 
-
-module.exports = { Register, login };
+module.exports = { Register, login ,Role};
 
 
 
