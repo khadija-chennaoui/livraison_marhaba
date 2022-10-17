@@ -5,6 +5,8 @@ const app = express()
 const route=require('./routes/auth')
 const db = require('./config/db-config')
 
+app.set('view engine', 'ejs');
+app.set('views','view')
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 

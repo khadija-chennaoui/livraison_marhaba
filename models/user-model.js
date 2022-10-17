@@ -17,10 +17,10 @@ const UserSchema = mongoose.Schema({
         type:String
     },
 
-    roles: [
+    role: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Role"
+          ref: "role"
         }
       ],
 

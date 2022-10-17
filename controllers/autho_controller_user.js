@@ -22,7 +22,7 @@ const Register = (req, res) => {
             bcrypt.hash(body.password, 10)
             .then((hash) => {
                     body.password = hash;
-                    user.create({ ...body ,role:'634db3d8c47f7caf754f57d5'})
+                    user.create({ ...body ,role:'634db3d8c47f7caf754f57d6'}) 
                 .then(() => {
                         res.send({ message: "added sccssfly" });
                     })
@@ -84,7 +84,23 @@ const login =(req,res) =>{
 
 
 
+const cheker =(req,res)=>{
+const {body} =req
 
+    user.find({...body,role:'634db3d8c47f7caf754f57d6'})
+    .then( e=>{
+        if(e){
+           return res.send(e)
+        }else{
+            return false
+        }
+    }
+       
+    )
+    .catch(error => res.status(500).json({ error }))
+
+
+}
 
 //Ajouter les rôles
 
@@ -99,7 +115,7 @@ const login =(req,res) =>{
 // };
 
 
-module.exports = { Register, login ,Role};
+module.exports = { Register, login,cheker };
 
 
 
