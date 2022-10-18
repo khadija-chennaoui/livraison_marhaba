@@ -2,9 +2,9 @@ const user = require("../models/user-model");
 const role = require("../models/role-model");
 const bcrypt = require("bcryptjs");
 const jwt= require('jsonwebtoken');
+const localstorage = require('local-storage')
 const { then } = require("../config/db-config");
  
-
 //Register d'un user
 
 const Register = (req, res) => {
@@ -49,7 +49,7 @@ const login =(req,res) =>{
             return res.status(401).send({msg:'email Invalide'})
         }
         else{ 
-             //Checking if the password incorrect compare password
+             // Checking if the password incorrect compare password
             
             bcrypt.compare(body.password,e.password)
             .then(valid =>{
@@ -58,14 +58,16 @@ const login =(req,res) =>{
                 }
                 else {
                     const user=e
-                    //Creat token
-                        const token=jwt.sign(
-                            { userId :user._id},
-                            'RANDOM_TOKEN_SECRET ',
-                            {expiresIn:'24h'}
-                        )
+                    // Create token
+                    const token = jwt.sign(
+                        {  eId :e._id},
+                        'RANDOM_TOKEN_SECRET',
+                        {expiresIn:'24h'}
+                    )
+                    localstorage('token', token);
+                    res.status(200).json({token: localstorage('token')});
                         
-                        res.header('auth-token',token).send(token)
+                        // res.header('auth-token',token).send(token)
                 }
             }
                 
@@ -81,22 +83,22 @@ const login =(req,res) =>{
 }
 
 
-
+// pour checker le role
 const cheker =(req,res)=>{
-const {body} =req
-
-    role.find({fullname,role:'Livreure'})
-    .then( e=>{
-        if(e){
-           return res.send(e)
-        }else{
-            return false
+    const{body}=req
+    const user = storage('user')
+    role.findById(user.role)
+    .then(
+        e=>{
+            if(e){
+                return res.json({e})
+            }
+            else{
+                return res.send('Not find')
+            }
         }
-    }
-       
     )
     .catch(error => res.status(500).json({ error }))
-
 
 }
 
