@@ -2,7 +2,7 @@ const user = require("../models/user-model");
 const role = require("../models/role-model");
 const bcrypt = require("bcryptjs");
 const jwt= require('jsonwebtoken');
-const localstorage = require('local-storage')
+const storage = require('local-storage')
 const { then } = require("../config/db-config");
  
 //Register d'un user
@@ -60,12 +60,13 @@ const login =(req,res) =>{
                     const user=e
                     // Create token
                     const token = jwt.sign(
-                        {  eId :e._id},
+                        {  eId :e._id,
+                         role :e.role},
                         'RANDOM_TOKEN_SECRET',
                         {expiresIn:'24h'}
                     )
-                    localstorage('token', token);
-                    res.status(200).json({token: localstorage('token')});
+                    storage('token', token);
+                    res.status(200).json({token: storage('token')});
                         
                         // res.header('auth-token',token).send(token)
                 }
