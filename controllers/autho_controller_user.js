@@ -1,8 +1,6 @@
 const user = require("../models/user-model");
 const role = require("../models/role-model");
-
 const bcrypt = require("bcryptjs");
-
 const jwt= require('jsonwebtoken');
 const { then } = require("../config/db-config");
  
@@ -87,7 +85,7 @@ const login =(req,res) =>{
 const cheker =(req,res)=>{
 const {body} =req
 
-    user.find({...body,role:'634db3d8c47f7caf754f57d6'})
+    role.find({fullname,role:'Livreure'})
     .then( e=>{
         if(e){
            return res.send(e)
