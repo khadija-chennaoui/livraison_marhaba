@@ -11,7 +11,7 @@ const VerfyToken =(req,res,next)=>{
                 next()
             }
         }else{
-            res.send('not hier')
+            res.send('token not fond')
         }
     }
 

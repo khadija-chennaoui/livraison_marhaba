@@ -10,27 +10,36 @@ app.set('views','view')
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-app.use('/user',route)
+
 var storage = require('local-storage');
 const jwt = require('jsonwebtoken');
-
 const auth = require('./middelware/auth')
 
-app.get('/home', auth.VerfyToken, (req, res)=>{
+// Route
+app.use('/api/auth',route) 
+app.get('/api/user', auth.VerfyToken, (req, res)=>{
+
   const token = storage('token');
   const user = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
+
   if(user.role =='634db3d8c47f7caf754f57d5'){
-    res.send('Votre role est ADMIN')
-  }else if(user.role=='634db3d8c47f7caf754f57d6'){
-    res.send('Votre role est CLIENT !!!!')
+    res.send('Ton role est ADMIN')
+    // res.send(user.fullname
   }
+
+  else if(user.role=='634db3d8c47f7caf754f57d6'){
+    res.send('Ton role est CLIENT')
+  }
+
   else(user.role=='634db3d8c47f7caf754f57d7')
-    res.send('Votre role est LIVREURE')
+  res.send('Ton role est LIVREUR')
   
   
 })
 
 
+
+// Verify la Connection de bd
 db.then(() => {
     console.log('connected');
   })

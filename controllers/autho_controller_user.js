@@ -6,7 +6,6 @@ const storage = require('local-storage')
 const { then } = require("../config/db-config");
  
 //Register d'un user
-
 const Register = (req, res) => {
     const { body } = req;
     user.findOne({email:body.email})
@@ -35,8 +34,7 @@ const Register = (req, res) => {
 
 
 
-//login khadija l9raya zwina lafana lbogossa lwa3ra li atnj7 in chaa lah
-
+//Login d'un user
 const login =(req,res) =>{
 
     const{body} = req
@@ -60,8 +58,11 @@ const login =(req,res) =>{
                     const user=e
                     // Create token
                     const token = jwt.sign(
-                        {  eId :e._id,
-                         role :e.role},
+                        {  _id :e._id,
+                         role :e.role,
+                         fullname:e.fullname,
+                         email:e.email,
+                        },
                         'RANDOM_TOKEN_SECRET',
                         {expiresIn:'24h'}
                     )
@@ -80,28 +81,15 @@ const login =(req,res) =>{
 
     
     .catch(error => res.status(500).json({ error }))
-
 }
 
 
-// pour checker le role
-const cheker =(req,res)=>{
-    const{body}=req
-    const user = storage('user')
-    role.findById(user.role)
-    .then(
-        e=>{
-            if(e){
-                return res.json({e})
-            }
-            else{
-                return res.send('Not find')
-            }
-        }
-    )
-    .catch(error => res.status(500).json({ error }))
 
-}
+
+
+
+module.exports = { Register, login };
+
 
 //Ajouter les rôles
 
@@ -114,42 +102,3 @@ const cheker =(req,res)=>{
 //       .then(res.send({msg:'role is added'}))
 //       .catch(error => res.status(500).json({ error }))
 // };
-
-
-module.exports = { Register, login,cheker };
-
-
-
-
-
-
-
-//Login d'un user par un premier methode
-
-
-// const login = (req, res) => {
-//     const {body}=req
-//      user.findOne({ email:body.email })
-//         .then(e => {
-//             if (!e) {
-//                return  res.status(401).send({ message: 'Paire email incorrecte'});
-//             }
-//             bcrypt.compare(req.body.password, e.password)
-//                 .then(valid => {
-//                     if (!valid) {
-//                       return   res.status(401).send({ message: 'Paire login/mot de passe incorrecte' });
-//                     }
-//                     res.status(200).json({
-//                         eId :e._id,
-//                         token:jwt.sign(
-//                             { eId :e._id},
-//                             'RANDOM_TOKEN_SECRET ',
-//                             {expiresIn:'24h'}
-//                         )
-
-//                     });
-//                 })
-//                 .catch(error => res.status(500).json({ error }));
-//         })
-//         .catch(error => res.status(500).json({ error }));
-//  };
