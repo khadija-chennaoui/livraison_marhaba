@@ -4,6 +4,7 @@ const db = require('../config/db-config')
 
 route.post('/registre',use.Register)
 route.post('/login',use.login)
+// route.post('/forgetpassword',use.forgetpassword)
 // route.post('/role',use.Role)
 
 module.exports = route;

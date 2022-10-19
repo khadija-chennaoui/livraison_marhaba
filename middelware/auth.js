@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
 var storage = require('local-storage');
+require('dotenv').config()
 
 
 const VerfyToken =(req,res,next)=>{
     if(req,res,next){
         if(storage('token')){
-            const token =jwt.verify(storage('token'),'RANDOM_TOKEN_SECRET')
+            const token =jwt.verify(storage('token'), process.env.SUCRET)
             if(token){
                 // res.send('token is her')
                 next()

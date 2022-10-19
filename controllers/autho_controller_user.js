@@ -4,7 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt= require('jsonwebtoken');
 const storage = require('local-storage')
 const { then } = require("../config/db-config");
- 
+require('dotenv').config()
+
 //Register d'un user
 const Register = (req, res) => {
     const { body } = req;
@@ -63,7 +64,7 @@ const login =(req,res) =>{
                          fullname:e.fullname,
                          email:e.email,
                         },
-                        'RANDOM_TOKEN_SECRET',
+                        process.env.SUCRET,
                         {expiresIn:'24h'}
                     )
                     storage('token', token);
@@ -83,7 +84,9 @@ const login =(req,res) =>{
     .catch(error => res.status(500).json({ error }))
 }
 
+// const forgetpassword =(res,req)=>{
 
+// console.log('hi forgetpassword')}
 
 
 

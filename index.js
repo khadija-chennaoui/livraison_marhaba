@@ -1,6 +1,7 @@
 //crée l'application
-const express =require('express')
+const express = require('express')
 const app = express()
+require('dotenv').config()
 
 const route=require('./routes/auth')
 const db = require('./config/db-config')
@@ -47,5 +48,5 @@ db.then(() => {
     console.log(error);
   });
 
-
-app.listen(3000)
+const port = process.env.PORT
+app.listen(port)
