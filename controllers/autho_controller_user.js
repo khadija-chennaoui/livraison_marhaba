@@ -4,7 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt= require('jsonwebtoken');
 const storage = require('local-storage')
 const { then } = require("../config/db-config");
+const mailer = require('../middelware/mailer')
 require('dotenv').config()
+
 
 //Register d'un user
 const Register = (req, res) => {
@@ -20,8 +22,10 @@ const Register = (req, res) => {
             bcrypt.hash(body.password, 10)
             .then((hash) => {
                     body.password = hash;
-                    user.create({ ...body ,role:'634db3d8c47f7caf754f57d6'}) 
+                    user.create({ ...body , role:'634db3d8c47f7caf754f57d6'})
                 .then(() => {
+                    storage('email', body.email)
+                    mailer.main()
                         res.send({ message: "added sccssfly" });
                     })
                 .catch((e) => res.send("Not added"));
@@ -89,9 +93,18 @@ const login =(req,res) =>{
 // console.log('hi forgetpassword')}
 
 
+const testToken = (req, res) => {
+    const token = req.params.token
+    res.json({token})
+}
 
 
-module.exports = { Register, login };
+
+module.exports = {
+    Register,
+    login,
+    testToken
+};
 
 
 //Ajouter les rôles
