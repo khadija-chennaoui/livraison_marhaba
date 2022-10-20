@@ -21,14 +21,14 @@ const main = ()=> {
     })
 
     let info ={
-        from: '"Khadija 👻" <khadijach896@gmail.com>',
+        from: '"Khadija ✨" <khadijach896@gmail.com>',
         to: email,
         subject: "Verification de compte  ✔",
         html:
             `<div style='height: 150px; width: 100%;'>
-              <h3>Hy dear,</h3>
-              <p>welcome to <span style='font-weight: bold;'>MARHABA</span>, click button for active your account.</p>
-              <a href="http://localhost:3000/api/auth/test/${token}" style="height: 60px; background-color: #199319; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; margin-bottom: 10px; margin-top: 10px;">Active</a> 
+              <h4>Hi dear,</h4>
+              <p>You are receiving this because you (or someone else) have requested the reset of the password for your account. <span style='font-weight: bold;'>MARHABA</span>,Please click on the following link, or paste this into your browser to complete the process:</p>
+              <a href="http://localhost:3000/api/auth/Verification/${token}" style="height: 60px; background-color: #199319; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; margin-bottom: 10px; margin-top: 10px;">Active</a> 
             </div>`,
       };
 

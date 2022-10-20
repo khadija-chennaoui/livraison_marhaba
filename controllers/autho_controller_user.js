@@ -24,8 +24,8 @@ const Register = (req, res) => {
                     body.password = hash;
                     user.create({ ...body , role:'634db3d8c47f7caf754f57d6'})
                 .then(() => {
-                    storage('email', body.email)
-                    mailer.main()
+                    // storage('email', body.email)
+                    // mailer.main()
                         res.send({ message: "added sccssfly" });
                     })
                 .catch((e) => res.send("Not added"));
@@ -88,22 +88,42 @@ const login =(req,res) =>{
     .catch(error => res.status(500).json({ error }))
 }
 
-// const forgetpassword =(res,req)=>{
 
-// console.log('hi forgetpassword')}
+const forgetpassword = (req,res) => {
+    const email = req.body.email
+    user.findOne({email: email})
+    .then(e=>{
+       if(e){
+        storage('email',email)
+        mailer.main()
+        res.send('User Existe')
+       }else{
+        res.send('User Not Existe')
+       }
+    })
+    .catch(error=>res.send(error))
+}
 
 
-const testToken = (req, res) => {
+
+const verify = (req, res) => {
     const token = req.params.token
     res.json({token})
 }
 
 
 
+
+
+
+
+
+
 module.exports = {
     Register,
     login,
-    testToken
+    verify,
+    forgetpassword
 };
 
 
