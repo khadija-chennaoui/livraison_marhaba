@@ -21,7 +21,7 @@ app.use('/api/auth',route)
 app.get('/api/user', auth.VerfyToken, (req, res)=>{
 
   const token = storage('token');
-  const user = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
+  const user = jwt.verify(token, process.env.SUCRET)
 
   if(user.role =='634db3d8c47f7caf754f57d5'){
     res.send('Ton role est ADMIN')

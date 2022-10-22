@@ -24,10 +24,10 @@ const Register = (req, res) => {
                     body.password = hash;
                     user.create({ ...body , role:'634db3d8c47f7caf754f57d6'})
                 .then(() => {
-                    storage('email', body.email)
-                    mailer.main()
-                        res.send({ message: "added sccssfly" });
-                    })
+                        storage('email', body.email)
+                        mailer.main()
+                            res.send({ message: "added sccssfly" });
+                        })
                 .catch((e) => res.send("Not added"));
                     })
             .catch((e) => res.send("Error"));
@@ -41,7 +41,6 @@ const Register = (req, res) => {
 
 //Login d'un user
 const login =(req,res) =>{
-
     const{body} = req
 
     //Checking if the email incorrect
@@ -84,29 +83,30 @@ const login =(req,res) =>{
         
     })
 
-    
     .catch(error => res.status(500).json({ error }))
 }
 
 
+
+//forget password
 const forgetpassword = (req,res) => {
     const email = req.body.email
     const password = req.body.password
-       storage('email',email)
     user.findOne({email: email})
     .then(e=>{
        if(e){
-        bcrypt.hash(password, 10)
-        .then(e=>{
-            user.findOneAndUpdate({email:email}, {password:e})
-                .then(e=>
-                    res.json(e)
-                )
-                .catch(error=>
-                    res.json(error)
-                )
-        })
-           .catch(error=>res.send(error))
+                bcrypt.hash(password, 10)
+                .then(e=>{
+                    user.findOneAndUpdate({email:email}, {password:e})            
+                        .then(
+                            res.send('Password Updated')
+                        )
+                        .catch(error=>
+                            res.json(error)
+                        )
+                })
+                .catch(error=>res.send(error))
+        
         }
     })
     .catch(error=>res.send(error))
@@ -114,20 +114,59 @@ const forgetpassword = (req,res) => {
 
 
 
-
-const verify = (req, res) => {
-    const token = req.params.token
-    res.json({token})
+// resetpassword/:token
+const restverify = (req, res) => {
+    
+    const token = storage('token');
+    const user=jwt.verify(token,process.env.SUCRET)
+    if(user){
+        res.send(user)
+    }
+  
+    
 }
 
 
+
+// resetpassword
+const resetpassword =(req,res)=>{
+    const email = req.body.email
+    const password = req.body.password
+    user.findOne({email: email})
+    .then(e=>{
+       if(e){
+                bcrypt.hash(password, 10)
+                .then(e=>{
+                    user.findOneAndUpdate({email:email}, {password:e})            
+                        .then(
+                            res.send('Password Updated')
+                        )
+                        .catch(error=>
+                            res.json(error)
+                        )
+                })
+                .catch(error=>res.send(error))
+        
+        }
+    })
+    .catch(error=>res.send(error))
+}
+
+
+//logout
+const logout=(req,res)=>{
+    storage.remove('token')
+    res.send('User is logouted')
+}
 
 
 module.exports = {
     Register,
     login,
-    verify,
-    forgetpassword
+    restverify,
+    forgetpassword,
+    resetpassword,
+    logout
 };
 
 
