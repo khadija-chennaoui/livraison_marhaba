@@ -24,8 +24,8 @@ const Register = (req, res) => {
                     body.password = hash;
                     user.create({ ...body , role:'634db3d8c47f7caf754f57d6'})
                 .then(() => {
-                    // storage('email', body.email)
-                    // mailer.main()
+                    storage('email', body.email)
+                    mailer.main()
                         res.send({ message: "added sccssfly" });
                     })
                 .catch((e) => res.send("Not added"));
@@ -91,18 +91,27 @@ const login =(req,res) =>{
 
 const forgetpassword = (req,res) => {
     const email = req.body.email
+    const password = req.body.password
+       storage('email',email)
     user.findOne({email: email})
     .then(e=>{
        if(e){
-        storage('email',email)
-        mailer.main()
-        res.send('User Existe')
-       }else{
-        res.send('User Not Existe')
-       }
+        bcrypt.hash(password, 10)
+        .then(e=>{
+            user.findOneAndUpdate({email:email}, {password:e})
+                .then(e=>
+                    res.json(e)
+                )
+                .catch(error=>
+                    res.json(error)
+                )
+        })
+           .catch(error=>res.send(error))
+        }
     })
     .catch(error=>res.send(error))
 }
+
 
 
 
@@ -110,11 +119,6 @@ const verify = (req, res) => {
     const token = req.params.token
     res.json({token})
 }
-
-
-
-
-
 
 
 
