@@ -10,6 +10,7 @@ route.post('/forgetpassword',use.forgetpassword)
 route.get('/resetpassword/:token', auth.VerfyToken , use.restverify)
 route.post('/resetpassword', auth.VerfyToken , use.resetpassword)
 route.get('/logout',auth.VerfyToken ,use.logout)
+route.get('/alluser',use.AllUser)
 
 // route.get('/verification/:token', use.verify)
 

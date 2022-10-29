@@ -10,7 +10,7 @@ require('dotenv').config()
 
 //Register d'un user
 const Register = (req, res) => {
-    const { body } = req;
+    const  body = req.body ;
     user.findOne({email:body.email})
     .then(e=>
         {
@@ -22,7 +22,7 @@ const Register = (req, res) => {
             bcrypt.hash(body.password, 10)
             .then((hash) => {
                     body.password = hash;
-                    user.create({ ...body , role:'634db3d8c47f7caf754f57d6'})
+                    user.create({ email:body.email,password:body.password,fullname:body.fullname,role:'634db3d8c47f7caf754f57d6'})
                 .then(() => {
                         storage('email', body.email)
                         mailer.main()
@@ -73,7 +73,6 @@ const login =(req,res) =>{
                     storage('token', token);
                     res.status(200).json({token: storage('token')});
                         
-                        // res.header('auth-token',token).send(token)
                 }
             }
                 
@@ -146,7 +145,7 @@ const resetpassword =(req,res)=>{
                         )
                 })
                 .catch(error=>res.send(error))
-        
+
         }
     })
     .catch(error=>res.send(error))
@@ -160,13 +159,25 @@ const logout=(req,res)=>{
 }
 
 
+//Get All Users 
+const AllUser = (req,res)=>{
+    user.find()
+    .then(e=>{
+        res.json(e)
+    })
+    .catch({msg:'Not Find Users'})
+}
+
 module.exports = {
     Register,
     login,
     restverify,
     forgetpassword,
     resetpassword,
-    logout
+    logout,
+    AllUser
+    
+    
 };
 
 

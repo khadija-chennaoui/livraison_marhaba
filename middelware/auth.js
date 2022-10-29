@@ -4,16 +4,14 @@ require('dotenv').config()
 
 
 const VerfyToken =(req,res,next)=>{
-    if(req,res,next){
-        if(storage('token')){
-            const token =jwt.verify(storage('token'), process.env.SUCRET)
-            if(token){
-                // res.send('token is her')
-                next()
-            }
-        }else{
-            res.send('token not fond')
+    if(storage('token')){
+        const token = jwt.verify(storage('token'), process.env.SUCRET)
+        if(token){
+            // res.send('token is her')
+            next()
         }
+    }else{
+        res.send('token not fond')
     }
 
 }

@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
     },
      
     password:{
-        type:String
+        type:String,
+        require:true
     },
 
     role: [

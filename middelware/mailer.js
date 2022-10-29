@@ -14,7 +14,7 @@ const main = ()=> {
         secure: true, // use SSL
         auth:{
             user:'khadijach896@gmail.com',
-            pass:'tamttkfjlivspxcm'
+            pass:process.env.MAILER,
         },
 
 

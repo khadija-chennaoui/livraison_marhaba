@@ -2,6 +2,8 @@
 const express = require('express')
 const app = express()
 require('dotenv').config()
+const cors = require('cors')
+
 
 const route=require('./routes/auth')
 const db = require('./config/db-config')
@@ -9,6 +11,7 @@ const db = require('./config/db-config')
 app.set('view engine', 'ejs');
 app.set('views','view')
 app.use(express.json())
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 
 
