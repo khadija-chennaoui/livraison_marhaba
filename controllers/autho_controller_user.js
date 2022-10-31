@@ -15,7 +15,7 @@ const Register = (req, res) => {
     .then(e=>
         {
             if(e){
-                return  res.status(401).send({msg:'email Déja Existe'})
+                return  res.send({message:'email Déja Existe'})
             }
             else{
                   //hash le password 
@@ -26,7 +26,8 @@ const Register = (req, res) => {
                 .then(() => {
                         storage('email', body.email)
                         mailer.main()
-                            res.send({ message: "added sccssfly" });
+                            // res.send({ message: "added sccssfly" });
+                            res.json({ message: "added sccssfly" });
                         })
                 .catch((e) => res.send("Not added"));
                     })
@@ -48,7 +49,7 @@ const login =(req,res) =>{
     user.findOne({email:body.email})
     .then(e=>{
         if(!e){
-            return res.status(401).send({msg:'email Invalide'})
+            return res.status(401).send({msg:'email incorrect'})
         }
         else{ 
              // Checking if the password incorrect compare password
@@ -56,7 +57,7 @@ const login =(req,res) =>{
             bcrypt.compare(body.password,e.password)
             .then(valid =>{
                 if(!valid){
-                    return res.status(401).send({msg:'password incoorect'})
+                    return res.status(401).send({msg:'password incorrect'})
                 }
                 else {
                     const user=e

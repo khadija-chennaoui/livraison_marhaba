@@ -26,19 +26,17 @@ app.get('/api/user', auth.VerfyToken, (req, res)=>{
   const token = storage('token');
   const user = jwt.verify(token, process.env.SUCRET)
 
-  if(user.role =='634db3d8c47f7caf754f57d5'){
-    res.send('Ton role est ADMIN')
-    // res.send(user.fullname
-  }
+  // if(user.role =='634db3d8c47f7caf754f57d5'){
+  //   res.send('Ton role est ADMIN')
+  //   // res.send(user.fullname
+  // }
 
-  else if(user.role=='634db3d8c47f7caf754f57d6'){
-    res.send('Ton role est CLIENT')
-  }
+  // else if(user.role=='634db3d8c47f7caf754f57d6'){
+  //   res.send('Ton role est CLIENT')
+  // }
 
-  else(user.role=='634db3d8c47f7caf754f57d7')
-  res.send('Ton role est LIVREUR')
-  
-  
+  // else(user.role=='634db3d8c47f7caf754f57d7')
+  // res.send('Ton role est LIVREUR')
 })
 
 
