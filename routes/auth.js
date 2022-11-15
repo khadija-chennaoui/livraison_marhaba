@@ -5,6 +5,7 @@ const auth = require('../middelware/auth')
 const db = require('../config/db-config')
 
 route.post('/registre',use.Register)
+route.post('/registrelivreur',use.RegisterLivreur)
 route.post('/login',use.login)
 route.post('/forgetpassword',use.forgetpassword)
 route.get('/resetpassword/:token', auth.VerfyToken , use.restverify)

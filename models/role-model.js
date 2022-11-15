@@ -7,5 +7,5 @@ const RoleSchema = mongoose.Schema({
         type:String,
     }
 })
-const role = mongoose.model('Role', RoleSchema);
+const role = mongoose.model('role',RoleSchema);
 module.exports = role

@@ -26,8 +26,35 @@ const Register = (req, res) => {
                 .then(() => {
                         storage('email', body.email)
                         mailer.main()
-                            // res.send({ message: "added sccssfly" });
-                            res.json({ message: "added sccssfly" });
+                            res.json( "added sccssfly" );
+                        })
+                .catch((e) => res.send("Not added"));
+                    })
+            .catch((e) => res.send("Error"));
+                    }
+        })
+    .catch((e) => res.send("Error"))
+  
+};
+
+const RegisterLivreur = (req, res) => {
+    const  body = req.body ;
+    user.findOne({email:body.email})
+    .then(e=>
+        {
+            if(e){
+                return  res.send({message:'email Déja Existe'})
+            }
+            else{
+                  //hash le password 
+            bcrypt.hash(body.password, 10)
+            .then((hash) => {
+                    body.password = hash;
+                    user.create({ email:body.email,password:body.password,fullname:body.fullname,role:'634db3d8c47f7caf754f57d7'})
+                .then(() => {
+                        storage('email', body.email)
+                        mailer.main()
+                            res.json( "added sccssfly" );
                         })
                 .catch((e) => res.send("Not added"));
                     })
@@ -49,7 +76,7 @@ const login =(req,res) =>{
     user.findOne({email:body.email})
     .then(e=>{
         if(!e){
-            return res.status(401).send({msg:'email incorrect'})
+            return res.send({message:'email incorrect'})
         }
         else{ 
              // Checking if the password incorrect compare password
@@ -57,7 +84,7 @@ const login =(req,res) =>{
             bcrypt.compare(body.password,e.password)
             .then(valid =>{
                 if(!valid){
-                    return res.status(401).send({msg:'password incorrect'})
+                    return res.send({message:'password incorrect'})
                 }
                 else {
                     const user=e
@@ -72,8 +99,15 @@ const login =(req,res) =>{
                         {expiresIn:'24h'}
                     )
                     storage('token', token);
-                    res.status(200).json({token: storage('token')});
-                        
+                    role.findById(user.role)
+                        .then(role=>{
+                            res.json({token:token,
+                                user:user.email,
+                                fullname:user.fullname,
+                                role:role.role, 
+                            });
+                        })
+                        .catch(error => res.status(500).json({ error }))
                 }
             }
                 
@@ -99,7 +133,7 @@ const forgetpassword = (req,res) => {
                 .then(e=>{
                     user.findOneAndUpdate({email:email}, {password:e})            
                         .then(
-                            res.send('Password Updated')
+                            res.send({message:'Password Updated'})
                         )
                         .catch(error=>
                             res.json(error)
@@ -156,7 +190,7 @@ const resetpassword =(req,res)=>{
 //logout
 const logout=(req,res)=>{
     storage.remove('token')
-    res.send('User is logouted')
+    res.send({message:'User is logouted'})
 }
 
 
@@ -176,6 +210,7 @@ module.exports = {
     forgetpassword,
     resetpassword,
     logout,
+    RegisterLivreur,
     AllUser
     
     

@@ -7,7 +7,7 @@ const VerfyToken =(req,res,next)=>{
     if(storage('token')){
         const token = jwt.verify(storage('token'), process.env.SUCRET)
         if(token){
-            // res.send('token is her')
+            res.send('token is her')
             next()
         }
     }else{
